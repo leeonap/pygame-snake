@@ -1,7 +1,7 @@
 '''
 Snake game.
 Authors:
-<insert the names of your teammates here>
+<Leeona, Leah>
 '''
 
 import pygame
@@ -27,7 +27,6 @@ DIRECTION_RIGHT = (1, 0)
 DIRECTION_UP = (0, -1)
 DIRECTION_DOWN = (0, 1)
 
-
 # Background color of the snake grid.
 COLOR_BACKGROUND = (224, 159, 198)  # rgb color for white
 # This is the color of the snake's head. 
@@ -49,14 +48,20 @@ def get_direction(previous_direction, event_key):
         return DIRECTION_LEFT
     elif event_key == pygame.K_UP:
         return DIRECTION_UP
-    return previous_direction
-
+    if event_key == pygame.K_RIGHT:
+        return DIRECTION_RIGHT
+    elif event_key == pygame.K_DOWN:
+        return DIRECTION_DOWN
+    return previous_direction 
+    
 def create_food_position():
     """Returns a random 2-tuple in the grid where the food should be located.
     The first element is the x position. Must be an int between 0 and GRID_WIDTH - 1, inclusively.
     The second element is the y position. Must be an int between 0 and GRID_HEIGHT - 1, inclusively.
     """
-    return
+    
+    return random.randrange(0, GRID_WIDTH -1), random.randrange(0, GRID_HEIGHT -1) 
+
 
 def snake_ate_food(snake, food):
     """Returns whether food was eaten by the snake.
@@ -64,6 +69,9 @@ def snake_ate_food(snake, food):
     food - 2-tuple representing the position in the grid of the food
     This function should return True if the head of the snake is in the same position as food.
     """
+    if snake[0] == food:
+        return True
+        create_food_position()
     return False
 
 def snake_ran_out_of_bounds(snake):
@@ -71,6 +79,14 @@ def snake_ran_out_of_bounds(snake):
     snake - list of 2-tuples representing the positions of each snake segment
     Note that the grid is GRID_WIDTH cells wide and GRID_HEIGHT cells high.
     """
+    if snake[0][0] >= GRID_WIDTH -1:
+        return True
+    elif snake[0][1] <= 0:
+        return True
+    elif snake[0][0] <= 0:
+        return True
+    elif snake[0][0] >= GRID_WIDTH -1:
+        return True
     return False
 
 def snake_intersected_body(snake):
@@ -79,6 +95,7 @@ def snake_intersected_body(snake):
     The snake ran into itself if the position of the head is the same as the position
     of any of its body segments.
     """
+    
     return False
 
 def get_score(snake):
@@ -258,3 +275,4 @@ def start_game():
 
 # Start the snake game.
 start_game()
+
