@@ -85,7 +85,7 @@ def snake_ran_out_of_bounds(snake):
         return True
     elif snake[0][0] <= 0:
         return True
-    elif snake[0][0] >= GRID_WIDTH -1:
+    elif snake[0][1] >= GRID_WIDTH -1:
         return True
     return False
 
