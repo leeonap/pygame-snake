@@ -46,8 +46,12 @@ def get_direction(previous_direction, event_key):
     """
     if event_key == pygame.K_LEFT:
         return DIRECTION_LEFT
+    if previous_direction == DIRECTION_RIGHT:
+        return previous_direction 
     elif event_key == pygame.K_UP:
         return DIRECTION_UP
+    if previous_direction == DIRECTION_DOWN:
+        return previous_direction
     if event_key == pygame.K_RIGHT:
         return DIRECTION_RIGHT
     elif event_key == pygame.K_DOWN:
@@ -95,8 +99,11 @@ def snake_intersected_body(snake):
     The snake ran into itself if the position of the head is the same as the position
     of any of its body segments.
     """
-    
+    for snake_body in range(1, len(snake)):
+        if snake[snake_body] == snake[0]:
+            return True
     return False
+    
 
 def get_score(snake):
     """Returns the current score of the game.
@@ -104,14 +111,16 @@ def get_score(snake):
     The user earns 10 points for each of the segments in the snake.
     For example, if the snake has 25 segments, the score is 250.
     """
-    return 0
+    if len(snake) == 10:
+        return 0
+    return len(snake) * 10
 
 def get_game_over_text(score):
     """Returns the text to draw on the screen after the game is over.
     This text should contain 'Game Over' as well as the score.
     score - integer representing the current score of the game.
     """
-    return 'Game Over.'
+    return 'Game Over. Score:' + str(score)
 
 def get_snake_speed(snake):
     """Return the number of cells the snake should travel in one second.
@@ -119,7 +128,10 @@ def get_snake_speed(snake):
     The speed at the beginning of the game should be 5. Once the snake has eaten 10 pieces of food,
     the speed of the game should increase (by how much is up to you).
     """
-    return 5
+    speed = 5
+    if len(snake) >= 15:
+        speed += 15
+    return speed
 
 def move_snake(snake, direction, food):
     """Moves the snake one space in the direction specified and returns whether food was eaten.
@@ -275,4 +287,3 @@ def start_game():
 
 # Start the snake game.
 start_game()
-
